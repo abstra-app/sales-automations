@@ -1,0 +1,105 @@
+{
+  "workspace": {
+    "name": "Workspace",
+    "language": "en",
+    "theme": null,
+    "logo_url": "./logo.png",
+    "favicon_url": "./favicon.ico",
+    "brand_name": "Abstra Project",
+    "main_color": null,
+    "font_family": null,
+    "font_color": null
+  },
+  "kanban": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "home": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "jobs": [
+    {
+      "id": "4e21a842-d9bc-477c-a9b7-e1ad66a56164",
+      "file": "snapshot_airtable_entity.py",
+      "title": "Snapshot Airtable Entity",
+      "schedule": "0 0 * * *",
+      "workflow_position": [
+        690.0,
+        465.0
+      ],
+      "transitions": []
+    },
+    {
+      "id": "f7928e0c-faa0-4acd-a769-246897991b31",
+      "file": "weekly_report_airtable_entity_status_diff.py",
+      "title": "Weekly Report Airtable Deal Status Diff",
+      "schedule": "0 1 * * 1",
+      "workflow_position": [
+        690.0,
+        525.0
+      ],
+      "transitions": [
+        {
+          "target_id": "20390609-70b2-4864-8a69-e2d515619bc7",
+          "target_type": "scripts",
+          "type": "jobs:finished",
+          "id": "37y364w",
+          "condition_value": null
+        }
+      ]
+    }
+  ],
+  "hooks": [],
+  "forms": [
+    {
+      "id": "dc607feb-074a-4974-9a6c-90bc9bb72dd4",
+      "path": "send-data-from-csv-to-multiple-tables",
+      "title": "Send Data From CSV To Multiple Tables",
+      "is_initial": true,
+      "auto_start": false,
+      "allow_restart": false,
+      "end_message": null,
+      "start_message": null,
+      "error_message": null,
+      "welcome_title": null,
+      "timeout_message": null,
+      "start_button_text": null,
+      "restart_button_text": null,
+      "file": "send_data_from_csv_to_multiple_tables.py",
+      "workflow_position": [
+        690.0,
+        405.0
+      ],
+      "transitions": [],
+      "notification_trigger": {
+        "variable_name": "assignee_emails",
+        "enabled": false
+      },
+      "access_control": {
+        "is_public": false,
+        "required_roles": []
+      }
+    }
+  ],
+  "scripts": [
+    {
+      "id": "20390609-70b2-4864-8a69-e2d515619bc7",
+      "file": "send_weekly_airtable_summary_slack.py",
+      "title": "Send Weekly Airtable Summary On Slack",
+      "is_initial": false,
+      "workflow_position": [
+        1170.0,
+        525.0
+      ],
+      "transitions": []
+    }
+  ],
+  "iterators": [],
+  "conditions": [],
+  "version": "11.0"
+}

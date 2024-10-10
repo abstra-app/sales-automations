@@ -1,0 +1,64 @@
+{
+  "workspace": {
+    "name": "Workspace",
+    "language": "en",
+    "theme": null,
+    "logo_url": "./logo.png",
+    "favicon_url": "./favicon.ico",
+    "brand_name": "Abstra Project",
+    "main_color": null,
+    "font_family": null,
+    "font_color": null
+  },
+  "kanban": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "home": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "jobs": [
+    {
+      "id": "b6011793-78c9-4a64-ad71-6250b012e488",
+      "file": "get_tldv_meetings_highlights_daily.py",
+      "title": "Get TLDV Meetings Highlights Daily",
+      "schedule": "0 0 * * *",
+      "workflow_position": [
+        450,
+        570
+      ],
+      "transitions": [
+        {
+          "target_id": "9fdc257c-a18d-4a00-aea5-6dfb347e2ae7",
+          "target_type": "scripts",
+          "type": "jobs:finished",
+          "id": "cbyjpfj",
+          "condition_value": null
+        }
+      ]
+    }
+  ],
+  "hooks": [],
+  "forms": [],
+  "scripts": [
+    {
+      "id": "9fdc257c-a18d-4a00-aea5-6dfb347e2ae7",
+      "file": "send_meeting_summary_to_pipedrive.py",
+      "title": "Send Meeting Summary To Pipedrive",
+      "is_initial": false,
+      "workflow_position": [
+        885,
+        570
+      ],
+      "transitions": []
+    }
+  ],
+  "iterators": [],
+  "conditions": [],
+  "version": "11.0"
+}

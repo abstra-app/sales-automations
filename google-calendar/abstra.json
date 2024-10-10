@@ -1,0 +1,82 @@
+{
+  "workspace": {
+    "name": "Workspace",
+    "language": "en",
+    "theme": null,
+    "logo_url": "./logo.png",
+    "favicon_url": "./favicon.ico",
+    "brand_name": "Abstra Project",
+    "main_color": null,
+    "font_family": null,
+    "font_color": null
+  },
+  "kanban": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "home": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "jobs": [],
+  "hooks": [],
+  "forms": [
+    {
+      "id": "7e5a30e0-2b70-4100-8138-914cba3e8d0f",
+      "path": "select-meeting-time",
+      "title": "Select Meeting Time",
+      "is_initial": true,
+      "auto_start": false,
+      "allow_restart": false,
+      "end_message": null,
+      "start_message": null,
+      "error_message": null,
+      "welcome_title": null,
+      "timeout_message": null,
+      "start_button_text": null,
+      "restart_button_text": null,
+      "file": "select_meeting_time.py",
+      "workflow_position": [
+        45.0,
+        105.0
+      ],
+      "transitions": [
+        {
+          "target_id": "0c03434d-3a06-4eb7-8ea6-730eb9fccf87",
+          "target_type": "scripts",
+          "type": "forms:finished",
+          "id": "psbmqz3",
+          "condition_value": null
+        }
+      ],
+      "notification_trigger": {
+        "variable_name": "assignee_emails",
+        "enabled": false
+      },
+      "access_control": {
+        "is_public": false,
+        "required_roles": []
+      }
+    }
+  ],
+  "scripts": [
+    {
+      "id": "0c03434d-3a06-4eb7-8ea6-730eb9fccf87",
+      "file": "schedule_calendar_event.py",
+      "title": "Schedule Calendar Event",
+      "is_initial": false,
+      "workflow_position": [
+        375.0,
+        105.0
+      ],
+      "transitions": []
+    }
+  ],
+  "iterators": [],
+  "conditions": [],
+  "version": "11.0"
+}
