@@ -1,0 +1,2 @@
+abstra==2.27.2
+pandas

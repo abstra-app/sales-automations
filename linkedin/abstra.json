@@ -1,0 +1,76 @@
+{
+  "workspace": {
+    "name": "Workspace",
+    "language": "en",
+    "theme": null,
+    "logo_url": "./logo.png",
+    "favicon_url": "./favicon.ico",
+    "brand_name": "Abstra Project",
+    "main_color": null,
+    "font_family": null,
+    "font_color": null
+  },
+  "kanban": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "home": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "jobs": [],
+  "hooks": [
+    {
+      "id": "d43637d0-ec0e-4b12-a383-6af227dc6741",
+      "file": "linkedin_event.py",
+      "path": "linkedin-event",
+      "title": "Linkedin Event",
+      "enabled": true,
+      "workflow_position": [
+        705.0,
+        510.0
+      ],
+      "is_initial": true,
+      "transitions": []
+    }
+  ],
+  "forms": [
+    {
+      "id": "409d8ecf-6f36-409d-9f30-6ee0b13349d0",
+      "path": "linkedin-subscription",
+      "title": "Linkedin Subscription",
+      "is_initial": true,
+      "auto_start": false,
+      "allow_restart": false,
+      "end_message": null,
+      "start_message": null,
+      "error_message": null,
+      "welcome_title": null,
+      "timeout_message": null,
+      "start_button_text": null,
+      "restart_button_text": null,
+      "file": "linkedin_subscription.py",
+      "workflow_position": [
+        690.0,
+        450.0
+      ],
+      "transitions": [],
+      "notification_trigger": {
+        "variable_name": "assignee_emails",
+        "enabled": false
+      },
+      "access_control": {
+        "is_public": false,
+        "required_roles": []
+      }
+    }
+  ],
+  "scripts": [],
+  "iterators": [],
+  "conditions": [],
+  "version": "11.0"
+}
