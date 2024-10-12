@@ -1,17 +1,10 @@
-from abstra.forms import get_user, Page, display
+from abstra.forms import Page, display
 import os
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
 import pandas as pd
 import json
-
-# Authenticate abstra team
-user = get_user()
-
-if not user.email.endswith("@abstra.app"):
-    display("u not an abstrer bebe")
-    exit()
 
 # Environment variables for API key and Base ID
 load_dotenv()
