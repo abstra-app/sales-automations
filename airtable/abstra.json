@@ -25,9 +25,9 @@
   "jobs": [
     {
       "id": "4e21a842-d9bc-477c-a9b7-e1ad66a56164",
-      "file": "snapshot_deal_status.py",
-      "title": "Snapshot Deal Status",
-      "schedule": "0 * * * *",
+      "file": "snapshot_airtable_entity.py",
+      "title": "Snapshot Airtable Entity",
+      "schedule": "0 0 * * *",
       "workflow_position": [
         690.0,
         465.0
@@ -36,22 +36,30 @@
     },
     {
       "id": "f7928e0c-faa0-4acd-a769-246897991b31",
-      "file": "weekly_report_airtable_deal_status_diff.py",
+      "file": "weekly_report_airtable_entity_status_diff.py",
       "title": "Weekly Report Airtable Deal Status Diff",
-      "schedule": "0 * * * *",
+      "schedule": "0 1 * * 1",
       "workflow_position": [
         690.0,
         525.0
       ],
-      "transitions": []
+      "transitions": [
+        {
+          "target_id": "20390609-70b2-4864-8a69-e2d515619bc7",
+          "target_type": "scripts",
+          "type": "jobs:finished",
+          "id": "37y364w",
+          "condition_value": null
+        }
+      ]
     }
   ],
   "hooks": [],
   "forms": [
     {
       "id": "dc607feb-074a-4974-9a6c-90bc9bb72dd4",
-      "path": "unpack-csv-to-airtable",
-      "title": "Unpack CSV To Airtable",
+      "path": "send-data-from-csv-to-multiple-tables",
+      "title": "Send Data From CSV To Multiple Tables",
       "is_initial": true,
       "auto_start": false,
       "allow_restart": false,
@@ -62,10 +70,10 @@
       "timeout_message": null,
       "start_button_text": null,
       "restart_button_text": null,
-      "file": "unpack_csv_to_airtable.py",
+      "file": "send_data_from_csv_to_multiple_tables.py",
       "workflow_position": [
-        690,
-        405
+        690.0,
+        405.0
       ],
       "transitions": [],
       "notification_trigger": {
@@ -78,7 +86,19 @@
       }
     }
   ],
-  "scripts": [],
+  "scripts": [
+    {
+      "id": "20390609-70b2-4864-8a69-e2d515619bc7",
+      "file": "send_airtable_summary_slack.py",
+      "title": "Send Airtable Summary On Slack",
+      "is_initial": false,
+      "workflow_position": [
+        1170.0,
+        525.0
+      ],
+      "transitions": []
+    }
+  ],
   "iterators": [],
   "conditions": [],
   "version": "11.0"
