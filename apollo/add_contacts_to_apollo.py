@@ -1,6 +1,8 @@
 import json
 import os
 import requests
+import pandas as pd
+from abstra.common import get_persistent_dir
 
 CONTACTS_PER_BATCH = 10
 API_KEY = os.getenv("APOLLO_API_KEY")
@@ -86,18 +88,9 @@ def separate_contacts(contacts):
     return separated_contacts
 
 
-all_contacts = [
-    {
-        "id": 1,
-        "first_name": "John",
-        "last_name": "Doe",
-        "email": "john.doe@domain.com",
-        "organization_name": "Company",
-        "sequence_id": 1,
-        "mailer_id": 1,
-    }
-]
-
+persistent_dir = get_persistent_dir()
+contacts = pd.read_csv(persistent_dir / "contacts.csv")
+all_contacts = contacts.to_dict(orient="records")
 
 if len(all_contacts):
     contacts = separate_contacts(all_contacts)
@@ -114,4 +107,3 @@ if len(all_contacts):
             contact_ids.append(contact_id)
 
         add_to_sequence(contact_ids, key[0], key[1])
-
