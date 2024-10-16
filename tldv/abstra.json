@@ -1,0 +1,44 @@
+{
+  "workspace": {
+    "name": "Workspace",
+    "language": "en",
+    "theme": null,
+    "logo_url": "./logo.png",
+    "favicon_url": "./favicon.ico",
+    "brand_name": "Abstra Project",
+    "main_color": null,
+    "font_family": null,
+    "font_color": null
+  },
+  "kanban": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "home": {
+    "access_control": {
+      "is_public": false,
+      "required_roles": []
+    }
+  },
+  "jobs": [
+    {
+      "id": "b6011793-78c9-4a64-ad71-6250b012e488",
+      "file": "get_tldv_meetings_highlights_daily.py",
+      "title": "Get TLDV Meetings Highlights Daily",
+      "schedule": "0 0 * * *",
+      "workflow_position": [
+        705.0,
+        570.0
+      ],
+      "transitions": []
+    }
+  ],
+  "hooks": [],
+  "forms": [],
+  "scripts": [],
+  "iterators": [],
+  "conditions": [],
+  "version": "11.0"
+}

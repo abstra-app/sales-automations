@@ -2,17 +2,20 @@ import datetime
 import json
 import os
 import requests
+from abstra.common import get_persistent_dir
 
 
 API_KEY = os.getenv("TLDV_API_KEY")
 CONTENT_TYPE = "application/json"
 
-folder_path = "tldv-meetings"
-file_path = f"{folder_path}/meetings-{datetime.datetime.now().strftime('%Y-%m-%d')}.json"
+persistent_dir = get_persistent_dir()
+folder_path = persistent_dir / "tldv-meetings"
+file_path = (
+    f"{folder_path}/meetings-{datetime.datetime.now().strftime('%Y-%m-%d')}.json"
+)
 
 
 def separate_highlights_by_label(highlights: list[dict]) -> dict:
-
     separated = {}
 
     for h in highlights:
@@ -26,7 +29,6 @@ def separate_highlights_by_label(highlights: list[dict]) -> dict:
 
 
 def get_todays_meetings() -> list[dict]:
-
     url = "https://pasta.tldv.io/v1alpha1/meetings"
 
     headers = {
@@ -34,19 +36,21 @@ def get_todays_meetings() -> list[dict]:
         "x-api-key": API_KEY,
     }
     params = {
-        'from': (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d'),
-        'to': (datetime.datetime.now()).strftime('%Y-%m-%d'),
+        "from": (datetime.datetime.now() - datetime.timedelta(days=1)).strftime(
+            "%Y-%m-%d"
+        ),
+        "to": (datetime.datetime.now()).strftime("%Y-%m-%d"),
     }
 
     try:
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
     except requests.exceptions.HTTPError as err:
-        print('error getting meetings: ', err)
+        print("error getting meetings: ", err)
         raise err
-    
+
     response_json = response.json()
-    
+
     return response_json.get("results", [])
 
 
@@ -62,9 +66,9 @@ def get_meetings_highlights(meeting_id: str) -> list:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
     except requests.exceptions.HTTPError as err:
-        print('error getting highlights: ', err)
+        print("error getting highlights: ", err)
         raise err
-    
+
     response_json = response.json()
 
     return response_json.get("data", [])

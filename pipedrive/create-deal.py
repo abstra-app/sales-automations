@@ -35,10 +35,10 @@ for email in emails:
 
     if len(existent_people) == 0:
         person = Person.create(
-            name=name_from_email(email), 
-            email=email, 
-            org_id=organization.id, 
-            owner_id=owner_id
+            name=name_from_email(email),
+            email=email,
+            org_id=organization.id,
+            owner_id=owner_id,
         )
         print(f"Person created: {person.name}")
 
@@ -92,4 +92,3 @@ activity = Activity.create(
     participants_ids=pipedrive_contacts_ids,
     done=False,
 )
-
