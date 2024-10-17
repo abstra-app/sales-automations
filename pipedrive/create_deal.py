@@ -1,3 +1,4 @@
+import abstra.forms as af
 from datetime import datetime, timedelta
 from pipedrive import Activity, Deal, Person, Organization
 
@@ -6,9 +7,28 @@ def name_from_email(email: str):
     return " ".join([e.capitalize() for e in email.split("@")[0].split(".")])
 
 
-owner_id = 1  # ID of the user to assign the deal
-emails = ["john.doe@domain.com", "mary.lee@domain.com"]  # list of emials to add to CRM
-organization_name = "Domain Inc"  # name of the organization to add to CRM
+contact_item = af.ListItemSchema().read("Name:", key="name").read("Email:", key="email")
+
+deals_page = (
+    af.Page()
+    .display_markdown(
+        """### You can also integrate with other input sources, such as LinkedIn ads, TLDV, and more."""
+    )
+    .read_number(
+        "Owner ID:",
+        key="owner_id",
+        hint="ID of the Pipedrive user who will own the deal",
+    )
+    .read("Company Name:", key="company_name")
+    .display("Add contacts:")
+    .read_list(contact_item, key="contacts", min=1)
+    .run()
+)
+
+owner_id = deals_page["owner_id"]
+organization_name = deals_page["company_name"]
+contacts = deals_page["contacts"]
+print(organization_name, contacts)
 
 pipedrive_contacts: list[Person] = []
 pipedrive_contacts_ids: list[int] = []
@@ -30,13 +50,13 @@ else:
 
 # People
 # Add / retrieve people
-for email in emails:
-    existent_people = Person.retrieve_by(email=email)
+for c in contacts:
+    existent_people = Person.retrieve_by(email=c["email"])
 
     if len(existent_people) == 0:
         person = Person.create(
-            name=name_from_email(email),
-            email=email,
+            name=c["name"],
+            email=c["email"],
             org_id=organization.id,
             owner_id=owner_id,
         )

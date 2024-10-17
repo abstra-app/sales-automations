@@ -1,1 +1,2 @@
 abstra_crm @ git+https://github.com/abstra-app/abstra_crm.git
+abstra==2.27.2
