@@ -1,7 +1,6 @@
 from abstra.forms import Page, display
 import os
 import requests
-from datetime import datetime
 from dotenv import load_dotenv
 import pandas as pd
 import json
@@ -20,8 +19,25 @@ def validate_file(page):
     return True
 
 
+# info markdown
+md = """
+### Expected Collumns
+
+- First Name
+- Last Name
+- Email
+- Person Linkedin Url
+- Job Title
+- Company
+- Inudustry
+- Number Of Employees
+- Company Linkedin Url
+- Website
+"""
+
 page = (
     Page()
+    .display_markdown(md)
     .read_file("Upload the contact csv file", key="file_response")
     .run(validate=validate_file)
 )
@@ -29,96 +45,6 @@ page = (
 # Convert file to pandas dataframe
 df = pd.read_csv(page["file_response"].file, on_bad_lines="skip")
 print(df)
-
-# Get required inputs from the user
-deal_details = (
-    Page()
-    .display("Input deal details for deals created from this import", size="large")
-    .display("🚨 All deals created will use the same details!", size="small")
-    .read_dropdown(
-        "Source",
-        [
-            "eventos",
-            "ads - linkedin",
-            "referral",
-            "cold",
-            "organic",
-            "community",
-            "previous relationship",
-            "ads - google",
-            "ads - youtube",
-            "previous lead",
-            "existing customer",
-            "investor intro",
-        ],
-    )
-    .read_dropdown(
-        "First touch",
-        [
-            "email",
-            "whatsapp",
-            "linkedin",
-            "phone",
-            "event",
-            "discord",
-            "slack",
-        ],
-    )
-    .read_multiple_choice("Motion", ["inbound", "outbound", "expansion"])
-    .read_dropdown(
-        "Status",
-        [
-            "mapped",
-            "closed_won",
-            "closed_lost",
-            "presenting",
-            "prospected",
-            "proposal_sent",
-            "buy_in",
-            "negotiation",
-            "contract_signed",
-            "first_meeting_scheduled",
-        ],
-    )
-    .read("Cohort name")
-    .run()
-)
-
-approve = (
-    Page()
-    .display("Records to be created", size="large", full_width=True)
-    .display_pandas(df)
-    .run(actions=["Cancel", "Continue"])
-)
-
-if approve.action == "Cancel":
-    display("Import cancelled 🚫")
-    exit()
-
-# Set up the request to Airtable
-headers = {
-    "Authorization": f"Bearer {airtable_token}",
-    "Content-Type": "application/json",
-}
-airtable_api_url = f"https://api.airtable.com/v0/{airtable_base_id}/"
-
-response = requests.post(
-    f"{airtable_api_url}cohorts",
-    headers=headers,
-    data=json.dumps(
-        {
-            "fields": {
-                "name": deal_details["Cohort name"],
-                "date": datetime.now().strftime("%Y-%m-%d"),
-            }
-        }
-    ),
-)
-
-print(response.json())
-response = response.json() if response.status_code == 200 else None
-cohort_id = response["id"] if response else None
-print(cohort_id)
 
 
 # Function to create a record in a table
@@ -144,7 +70,7 @@ for index, row in df.iterrows():
         "fields": {
             "name": row["Company"],
             "industry": row["Industry"],
-            "headcount": row["# Employees"],
+            "headcount": row["Number Of Employees"],
             "Linkedin": row["Company Linkedin Url"]
             if not pd.isnull(row["Company Linkedin Url"])
             else None,
@@ -155,9 +81,6 @@ for index, row in df.iterrows():
     company_id = company_response["id"] if company_response else None
     company_name = company_response["fields"]["name"] if company_response else None
 
-    if not company_id:
-        continue  # Skip this row if company creation failed
-
     # 2 - Create Contact linked to the Company
     contact_data = {
         "fields": {
@@ -166,30 +89,10 @@ for index, row in df.iterrows():
             "linkedin_profile": row["Person Linkedin Url"]
             if not pd.isnull(row["Email"])
             else None,
-            "job_title": row["Title"] if not pd.isnull(row["Email"]) else None,
+            "job_title": row["Job Title"] if not pd.isnull(row["Email"]) else None,
             "company": [company_id],
         }
     }
     contact_response = create_record("contacts", contact_data)
-    contact_id = contact_response["id"] if contact_response else None
-    contact_name = contact_response["fields"]["name"] if contact_response else None
-
-    if not contact_id:
-        continue  # Skip creating a deal if contact creation failed
-
-    # 3 - Create Deal linked to the Company and Contact
-    deal_data = {
-        "fields": {
-            "name": company_name + " - " + contact_name,
-            "company": [company_id],
-            "contacts": [contact_id],
-            "source": deal_details["Source"],
-            "first_touch": deal_details["First touch"],
-            "motion": deal_details["Motion"],
-            "status": deal_details["Status"],
-            "cohort": [cohort_id],
-        }
-    }
-    create_record("deals", deal_data)
 
 display("Import complete! 🎉")

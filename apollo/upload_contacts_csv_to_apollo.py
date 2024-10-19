@@ -50,7 +50,6 @@ id_info = (
     .read_multiple_choice(
         "Select mailer of this sequence",
         mailer_options,
-        initial_value="634f00525bf03100a3535fc2",
         key="mailer_id",
     )
     .read_dropdown(
@@ -73,7 +72,7 @@ mailer_id = id_info["mailer_id"]
 # Recieve the CSV file
 contacts_page = (
     af.Page()
-    .display_markdown(""""
+    .display_markdown("""
 ### Expected Columns:
 
 - id
