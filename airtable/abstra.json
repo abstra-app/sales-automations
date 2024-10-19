@@ -89,8 +89,8 @@
   "scripts": [
     {
       "id": "20390609-70b2-4864-8a69-e2d515619bc7",
-      "file": "send_airtable_summary_slack.py",
-      "title": "Send Airtable Summary On Slack",
+      "file": "send_weekly_airtable_summary_slack.py",
+      "title": "Send Weekly Airtable Summary On Slack",
       "is_initial": false,
       "workflow_position": [
         1170.0,
